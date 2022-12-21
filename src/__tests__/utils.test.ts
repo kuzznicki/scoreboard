@@ -13,13 +13,12 @@ test('stringToTeam() - should return null if string is incorrect', () => {
 
 test('createGame() - should return game with correct score', () => {
     const game = createGame(Team.Poland, Team.Germany);
-    expect(game).toEqual({
-        id: expect.any(String),
-        homeTeam: Team.Poland,
-        awayTeam: Team.Germany,
-        homeScore: 0,
-        awayScore: 0,
-    });
+    expect(game.id).toEqual(expect.any(String));
+    expect(game.homeTeam).toEqual(Team.Poland);
+    expect(game.awayTeam).toEqual(Team.Germany);
+    expect(game.homeScore).toEqual(0);
+    expect(game.awayScore).toEqual(0);
+    expect(game.startedAt).toEqual(expect.any(Number));
 });
 
 test('isTeamPlaying() - should return true if team is playing', () => {

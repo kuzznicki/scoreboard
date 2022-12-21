@@ -5,13 +5,12 @@ import { isTeamPlaying, stringToTeam } from '@/utils';
 import '@/styles/components/StartGameModal.scss';
 
 type Props = {
-    show: boolean;
     games: Game[];
     onHide: () => void;
     onGameStart: (homeTeam: Team, awayTeam: Team) => void;
 }
 
-export default function StartGameModal({ show, games, onHide, onGameStart }: Props) {
+export default function StartGameModal({ games, onHide, onGameStart }: Props) {
     const [homeTeam, setHomeTeam] = useState<Team | null>(null);
     const [awayTeam, setAwayTeam] = useState<Team | null>(null);
     const [error, setError] = useState('');
@@ -36,7 +35,7 @@ export default function StartGameModal({ show, games, onHide, onGameStart }: Pro
     }
 
     return (
-        <Modal className='start-game-modal' show={show} onHide={onHide} centered animation={false}>
+        <Modal className='start-game-modal' show onHide={onHide} centered animation={false}>
             <Modal.Header closeButton>
                 <Modal.Title>Start a new game</Modal.Title>
             </Modal.Header>

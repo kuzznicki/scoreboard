@@ -6,7 +6,14 @@ export function stringToTeam(teamString: string): Team | null {
 }
 
 export function createGame(homeTeam: Team, awayTeam: Team): Game {
-    return { id: uuid(), homeTeam, awayTeam, homeScore: 0, awayScore: 0 };
+    return { 
+        id: uuid(), 
+        homeTeam, 
+        awayTeam, 
+        homeScore: 0, 
+        awayScore: 0,
+        startedAt: Date.now(),
+    };
 }
 
 export function isTeamPlaying(games: Game[], team: Team): boolean {

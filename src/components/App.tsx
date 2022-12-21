@@ -6,13 +6,23 @@ import gamesReducer from '@/reducers/gamesReducer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@/styles/components/App.scss';
 
-const initialGames: Game[] = [
-    { id: uuid(), homeTeam: Team.Mexico, awayTeam: Team.Canada, homeScore: 0, awayScore: 5 },
-    { id: uuid(), homeTeam: Team.Spain, awayTeam: Team.Brazil, homeScore: 10, awayScore: 2 },
-    { id: uuid(), homeTeam: Team.Germany, awayTeam: Team.France, homeScore: 2, awayScore: 2 },
-    { id: uuid(), homeTeam: Team.Uruguay, awayTeam: Team.Italy, homeScore: 6, awayScore: 6 },
-    { id: uuid(), homeTeam: Team.Argentina, awayTeam: Team.Australia, homeScore: 3, awayScore: 1 }
+const initialData: [Team, Team, number, number][] = [
+    [Team.Mexico, Team.Canada, 0, 5],
+    [Team.Spain, Team.Brazil, 10, 2],
+    [Team.Germany, Team.France, 2, 2],
+    [Team.Uruguay, Team.Italy, 6, 6],
+    [Team.Argentina, Team.Australia, 3, 1]
 ];
+const initialGames: Game[] = initialData.map(e => {
+    return {
+        id: uuid(), 
+        homeTeam: e[0], 
+        awayTeam: e[1], 
+        homeScore: e[2], 
+        awayScore: e[3], 
+        startedAt: Date.now(),
+    }
+});
 
 function App() {
     const [games, dispatch] = useReducer(gamesReducer, initialGames);

@@ -54,4 +54,5 @@ export type Game = {
     awayTeam: Team;
     homeScore: number;
     awayScore: number;
+    startedAt: number;
 };

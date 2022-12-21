@@ -14,6 +14,13 @@ type Props = {
 export default function Scoreboard({ games, dispatch }: Props) {
     const [showStartGameModal, setShowStartGameModal] = useState(false);
     const [gameToUpdate, setGameToUpdate] = useState<Game | null>(null);
+    
+    const sortedGames = [...games].sort((a, b) => {
+        const scoreDiff = (b.homeScore + b.awayScore) - (a.homeScore + a.awayScore);
+        if (scoreDiff !== 0) return scoreDiff;
+
+        return b.startedAt - a.startedAt;
+    });
 
     function handleGameStart(homeTeam: Team, awayTeam: Team) {
         const game = createGame(homeTeam, awayTeam);
@@ -42,7 +49,7 @@ export default function Scoreboard({ games, dispatch }: Props) {
 
                 <Card.Body>
                     <ul className="games">
-                        {games.map((game) => (
+                        {sortedGames.map((game) => (
                             <li key={game.id}>
                                 <GameEntry game={game} onClick={() => setGameToUpdate(game)}/>
                             </li>
@@ -55,12 +62,11 @@ export default function Scoreboard({ games, dispatch }: Props) {
                 </Card.Footer>
             </Card>
 
-            <StartGameModal
+            {showStartGameModal && <StartGameModal
                 games={games}
-                show={showStartGameModal} 
                 onHide={() => setShowStartGameModal(false)}
                 onGameStart={handleGameStart}
-            />
+            />}
 
             {gameToUpdate && <UpdateGameModal
                 game={gameToUpdate}
