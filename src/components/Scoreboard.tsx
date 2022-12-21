@@ -2,8 +2,7 @@ import { Fragment, useState, Dispatch } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { Game, Team } from '@/types';
 import { Action, startGame } from '@/reducers/gamesReducer';
-import StartGameModal from '@/components/StartGameModal';
-import GameEntry from '@/components/GameEntry';
+import { StartGameModal, GameEntry, UpdateGameModal } from '@/components';
 import { createGame } from '@/utils';
 import '@/styles/components/Scoreboard.scss';
 
@@ -14,6 +13,7 @@ type Props = {
 
 export default function Scoreboard({ games, dispatch }: Props) {
     const [showStartGameModal, setShowStartGameModal] = useState(false);
+    const [gameToUpdate, setGameToUpdate] = useState<Game | null>(null);
 
     function handleGameStart(homeTeam: Team, awayTeam: Team) {
         const game = createGame(homeTeam, awayTeam);
@@ -33,7 +33,9 @@ export default function Scoreboard({ games, dispatch }: Props) {
                 <Card.Body>
                     <ul className="games">
                         {games.map((game) => (
-                            <li key={game.id}><GameEntry game={game} onClick={() => {}}/></li>
+                            <li key={game.id}>
+                                <GameEntry game={game} onClick={() => setGameToUpdate(game)}/>
+                            </li>
                         ))}
                     </ul>
                 </Card.Body>
@@ -48,6 +50,13 @@ export default function Scoreboard({ games, dispatch }: Props) {
                 show={showStartGameModal} 
                 onHide={() => setShowStartGameModal(false)}
                 onGameStart={handleGameStart}
+            />
+
+            <UpdateGameModal 
+                game={gameToUpdate}
+                onHide={() => setGameToUpdate(null)}
+                onUpdate={game => console.log('update', game)}
+                onFinish={() => console.log('finish')}
             />
         </Fragment>
     );

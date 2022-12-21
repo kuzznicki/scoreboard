@@ -36,7 +36,7 @@ export default function StartGameModal({ show, games, onHide, onGameStart }: Pro
     }
 
     return (
-        <Modal className='start-game-modal' show={show} onHide={onHide} centered>
+        <Modal className='start-game-modal' show={show} onHide={onHide} centered animation={false}>
             <Modal.Header closeButton>
                 <Modal.Title>Start a new game</Modal.Title>
             </Modal.Header>
