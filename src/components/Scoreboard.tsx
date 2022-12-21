@@ -1,10 +1,11 @@
 import { Fragment, useState, Dispatch } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { Game, Team } from '@/types';
-import StartGameModal from '@/components/StartGameModal';
 import { Action, startGame } from '@/reducers/gamesReducer';
-import '@/styles/components/Scoreboard.scss'
+import StartGameModal from '@/components/StartGameModal';
+import GameEntry from '@/components/GameEntry';
 import { createGame } from '@/utils';
+import '@/styles/components/Scoreboard.scss';
 
 type Props = {
     games: Game[];
@@ -32,12 +33,14 @@ export default function Scoreboard({ games, dispatch }: Props) {
                 <Card.Body>
                     <ul className="games">
                         {games.map((game) => (
-                            <li key={game.id}>
-                                {game.homeTeam} {game.homeScore} - {game.awayScore} {game.awayTeam}
-                            </li>
+                            <li key={game.id}><GameEntry game={game} onClick={() => {}}/></li>
                         ))}
                     </ul>
                 </Card.Body>
+
+                <Card.Footer className="text-muted">
+                    Click on game to finish it or update the score
+                </Card.Footer>
             </Card>
 
             <StartGameModal
