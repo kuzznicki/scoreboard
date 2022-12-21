@@ -62,7 +62,7 @@ export default function Scoreboard({ games, dispatch }: Props) {
                 </Card.Body>
 
                 <Card.Footer className="text-muted">
-                    Click on game to finish it or update the score
+                    Click on a game to finish it or update the score
                 </Card.Footer>
             </Card>
 

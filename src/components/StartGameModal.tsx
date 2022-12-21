@@ -14,6 +14,7 @@ export default function StartGameModal({ games, onHide, onGameStart }: Props) {
     const [homeTeam, setHomeTeam] = useState<Team | null>(null);
     const [awayTeam, setAwayTeam] = useState<Team | null>(null);
     const [error, setError] = useState('');
+    const availableTeams = Object.values(Team).filter(team => !isTeamPlaying(games, team)).sort();
 
     function handleStart(homeTeam: Team | null, awayTeam: Team | null) {
         if (!homeTeam || !awayTeam) return;
@@ -23,13 +24,6 @@ export default function StartGameModal({ games, onHide, onGameStart }: Props) {
             return;
         };
 
-        for (const team of [homeTeam, awayTeam]) {
-            if (isTeamPlaying(games, team)) {
-                setError(`${team} is already playing a match.`);
-                return;
-            }
-        }
-            
         onGameStart(homeTeam, awayTeam);
         onHide();
     }
@@ -51,9 +45,7 @@ export default function StartGameModal({ games, onHide, onGameStart }: Props) {
                                 setHomeTeam(stringToTeam(e.target.value));
                             }}>
                                 <option value="">Select a team</option>
-                                {Object.values(Team).map(team => (
-                                    <option key={team} value={team}>{team}</option>
-                                ))}
+                                {availableTeams.map(team => <option key={team} value={team}>{team}</option>)}
                             </Form.Control>
                         </Form.Group>
                     </Col>
@@ -66,9 +58,7 @@ export default function StartGameModal({ games, onHide, onGameStart }: Props) {
                                 setAwayTeam(stringToTeam(e.target.value));
                             }}>
                                 <option value="">Select a team</option>
-                                {Object.values(Team).map(team => (
-                                    <option key={team} value={team}>{team}</option>
-                                ))}
+                                {availableTeams.map(team => <option key={team} value={team}>{team}</option>)}
                             </Form.Control>
                         </Form.Group>
                     </Col>
