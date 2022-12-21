@@ -1,18 +1,22 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, Dispatch } from 'react';
 import { Button, Card } from 'react-bootstrap';
-import { Game, Team } from "@/types";
+import { Game, Team } from '@/types';
 import StartGameModal from '@/components/StartGameModal';
+import { Action, startGame } from '@/reducers/gamesReducer';
 import '@/styles/components/Scoreboard.scss'
+import { createGame } from '@/utils';
 
 type Props = {
     games: Game[];
+    dispatch: Dispatch<Action>;
 };
 
-export default function Scoreboard({ games }: Props) {
+export default function Scoreboard({ games, dispatch }: Props) {
     const [showStartGameModal, setShowStartGameModal] = useState(false);
 
     function handleGameStart(homeTeam: Team, awayTeam: Team) {
-        console.log(homeTeam, awayTeam);
+        const game = createGame(homeTeam, awayTeam);
+        dispatch(startGame(game));
     }
 
     return (

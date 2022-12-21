@@ -1,5 +1,5 @@
-import { v4 as uuid } from "uuid";
-import { Game, Team } from "./types";
+import { v4 as uuid } from 'uuid';
+import { Game, Team } from '@/types';
 
 export function stringToTeam(teamString: string): Team | null {
     return Object.values(Team).find((team) => team === teamString) || null;

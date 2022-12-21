@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useReducer } from 'react';
 import { v4 as uuid } from 'uuid';
 import Scoreboard from '@/components/Scoreboard';
 import { Game, Team } from '@/types';
+import gamesReducer from '@/reducers/gamesReducer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@/styles/components/App.scss';
 
@@ -14,11 +15,11 @@ const initialGames: Game[] = [
 ];
 
 function App() {
-    const [games, setGames] = useState(initialGames);
+    const [games, dispatch] = useReducer(gamesReducer, initialGames);
 
     return (
         <div className="App">
-            <Scoreboard games={games}/>
+            <Scoreboard games={games} dispatch={dispatch} />
         </div>
     )
 }
