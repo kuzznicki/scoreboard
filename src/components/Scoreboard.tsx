@@ -48,13 +48,17 @@ export default function Scoreboard({ games, dispatch }: Props) {
                 </Card.Header>
 
                 <Card.Body>
-                    <ul className="games">
-                        {sortedGames.map((game) => (
-                            <li key={game.id}>
-                                <GameEntry game={game} onClick={() => setGameToUpdate(game)}/>
-                            </li>
-                        ))}
-                    </ul>
+                    {sortedGames.length === 0 ? (
+                        <div className="empty">No games yet</div>
+                    ) : (
+                        <ul className="games">
+                            {sortedGames.map((game) => (
+                                <li key={game.id}>
+                                    <GameEntry game={game} onClick={() => setGameToUpdate(game)}/>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                 </Card.Body>
 
                 <Card.Footer className="text-muted">
