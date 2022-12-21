@@ -1,7 +1,7 @@
 import { Fragment, useState, Dispatch } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { Game, Team } from '@/types';
-import { Action, startGame } from '@/reducers/gamesReducer';
+import { Action, startGame, updateScore, finishGame } from '@/reducers/gamesReducer';
 import { StartGameModal, GameEntry, UpdateGameModal } from '@/components';
 import { createGame } from '@/utils';
 import '@/styles/components/Scoreboard.scss';
@@ -18,6 +18,16 @@ export default function Scoreboard({ games, dispatch }: Props) {
     function handleGameStart(homeTeam: Team, awayTeam: Team) {
         const game = createGame(homeTeam, awayTeam);
         dispatch(startGame(game));
+    }
+
+    function handleScoreUpdate(id: string, homeScore: number, awayScore: number) {
+        dispatch(updateScore(id, homeScore, awayScore));
+    }
+
+    function handleGameFinish() {
+        if (!gameToUpdate) return;
+        dispatch(finishGame(gameToUpdate.id));
+        setGameToUpdate(null);
     }
 
     return (
@@ -52,12 +62,12 @@ export default function Scoreboard({ games, dispatch }: Props) {
                 onGameStart={handleGameStart}
             />
 
-            <UpdateGameModal 
+            {gameToUpdate && <UpdateGameModal
                 game={gameToUpdate}
                 onHide={() => setGameToUpdate(null)}
-                onUpdate={game => console.log('update', game)}
-                onFinish={() => console.log('finish')}
-            />
+                onUpdate={(id, homeScore, awayScore) => handleScoreUpdate(id, homeScore, awayScore)}
+                onFinish={() => handleGameFinish()}
+            />}
         </Fragment>
     );
 }

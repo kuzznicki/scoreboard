@@ -1,20 +1,32 @@
 import { useState } from 'react';
-import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
+import { Alert, Button, Col, Form, Modal, Row } from 'react-bootstrap';
 import { Game} from '@/types';
 import '@/styles/components/UpdateGameModal.scss';
 
 type Props = {
-    game: Game | null;
+    game: Game;
     onHide: () => void;
     onFinish: () => void;
-    onUpdate: (updatedGame: Game) => void;
+    onUpdate: (id: string, homeScore: number, awayScore: number) => void;
 };
 
 export default function UpdateGameModal({ game, onHide, onFinish, onUpdate }: Props) {
-    const [homeScore, setHomeScore] = useState(0);
-    const [awayScore, setAwayScore] = useState(0);
+    const [homeScore, setHomeScore] = useState(game.homeScore);
+    const [awayScore, setAwayScore] = useState(game.awayScore);
+    const [error, setError] = useState('');
 
-    if (!game) return null;
+    function handleUpdate() {
+        if (homeScore < game.homeScore || awayScore < game.awayScore) {
+            setError(
+                `The score cannot be updated to a lower value. \n` + 
+                `Current score: ${game.homeTeam} ${game.homeScore} - ${game.awayScore} ${game.awayTeam}`
+            );
+            return;
+        }
+
+        onUpdate(game.id, homeScore, awayScore);
+        onHide();
+    }
 
     return (
         <Modal className='update-game-modal' show onHide={onHide} centered animation={false}>
@@ -23,6 +35,7 @@ export default function UpdateGameModal({ game, onHide, onFinish, onUpdate }: Pr
             </Modal.Header>
 
             <Modal.Body>
+                {error && <Alert variant="danger">{error}</Alert>}
                 <Row>
                     <Col sm={6}>
                         <Form.Group>
@@ -43,7 +56,7 @@ export default function UpdateGameModal({ game, onHide, onFinish, onUpdate }: Pr
             <Modal.Footer>
                 <Button className='cancel-button' variant="outline-danger" onClick={onHide}>Cancel</Button>
                 <Button variant="outline-primary" onClick={onFinish}>Finish</Button>
-                <Button variant="primary" onClick={() => onUpdate({ ...game, homeScore, awayScore })}>Update</Button>
+                <Button variant="primary" onClick={() => handleUpdate()}>Update</Button>
             </Modal.Footer>
         </Modal>
     );
