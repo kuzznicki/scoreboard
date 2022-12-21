@@ -16,6 +16,16 @@ export default function UpdateGameModal({ game, onHide, onFinish, onUpdate }: Pr
     const [error, setError] = useState('');
 
     function handleUpdate() {
+        if (homeScore < 0 || awayScore < 0) {
+            setError('The score cannot be negative');
+            return;
+        }
+        
+        if (!Number.isInteger(homeScore) || !Number.isInteger(awayScore)) {
+            setError('The score must be an integer');
+            return;
+        }
+
         if (homeScore < game.homeScore || awayScore < game.awayScore) {
             setError(
                 `The score cannot be updated to a lower value. \n` + 
