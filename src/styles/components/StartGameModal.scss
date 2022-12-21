@@ -1,0 +1,10 @@
+.start-game-modal {
+    .modal-footer {
+        display: flex;
+        justify-content: space-between;
+
+        button {
+            min-width: 7rem;
+        }
+    }
+}
